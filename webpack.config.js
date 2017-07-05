@@ -41,7 +41,7 @@ module.exports = function (env) {
   return {
     entry: './src/main.js',
     output: {
-      filename: env && env.production ? 'dist/js/bundle.js' : 'js/bundle.js',
+      filename: env && env.production ? 'dist/js/main.js' : 'js/main.js',
       libraryTarget: 'var',
     },
     devtool: env && env.production ? '' : 'cheap-eval-source-map',

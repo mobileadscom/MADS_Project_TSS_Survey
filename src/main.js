@@ -17,13 +17,13 @@ class AdUnit extends Mads {
     return `
       <div class="ad-container" id="adContainer">
         <div id="firstContainer">
-          <div style="margin-bottom: 20px;font-size:23px; width: 290px;">How do you feel about Tennessee’s school system?</div>
+          <div style="margin-bottom: 20px;font-size:23px; width: 290px;">How do you feel about Tennessee's school system?</div>
           <div id="enter">ENTER</div>
         </div>
         <div id="questionContainer"></div>
         <div id="controlContainer">
-          <img src="${this.resolve('img/larrow.png')}" style="pointer-events: none;" id="prev" alt="previous" />
-          <img src="${this.resolve('img/rarrow.png')}" style="pointer-events: none;" id="next" alt="next" />
+          <img src="img/larrow.png" style="pointer-events: none;" id="prev" alt="previous" />
+          <img src="img/rarrow.png" style="pointer-events: none;" id="next" alt="next" />
         </div>
         <div id="indicatorContainer">${this.currentQuestion + 1}/${this.data.questions.length}</div>
       </div>
@@ -93,9 +93,8 @@ class AdUnit extends Mads {
       const questionTrackerType = `QID${this.currentQuestion + 1}`;
       this.tracker('E', questionTrackerType);
       // eslint-disable-next-line no-template-curly-in-string
-      const questionCustomTracker = 'https://trk.mwstats.net/stats/interaction.png?ii=TRACKER_TYPE&id=${mw_bid_id}&li=${mw_lineitem_id}&t=${mw_timestamp}&cr=${mw_creative_id}'
-        .replace('TRACKER_TYPE', questionTrackerType);
-      this.imageTracker(questionCustomTracker);
+      // const questionCustomTracker = [((this.custTracker[1] && this.custTracker[1]) || 'https://trk.mwstats.net/stats/interaction.png?ii=TRACKER_TYPE&id=${mw_bid_id}&li=${mw_lineitem_id}&t=${mw_timestamp}&cr=${mw_creative_id}').replace('TRACKER_TYPE', questionTrackerType)];
+      // this.imageTracker(questionCustomTracker);
 
       this.elems.indicatorContainer.innerText = `${this.currentQuestion + 1}/${this.data.questions.length}`;
 
@@ -118,13 +117,13 @@ class AdUnit extends Mads {
           const trackerType = `QID${this.currentQuestion + 1}_Opt${answerIndex + 1}`;
           this.tracker('E', trackerType);
           // eslint-disable-next-line no-template-curly-in-string
-          const customTracker = 'https://trk.mwstats.net/stats/interaction.png?ii=TRACKER_TYPE&id=${mw_bid_id}&li=${mw_lineitem_id}&t=${mw_timestamp}&cr=${mw_creative_id}'
-            .replace('TRACKER_TYPE', trackerType);
-          this.imageTracker(customTracker);
+          // const customTracker = [((this.custTracker[1] && this.custTracker[1]) || 'https://trk.mwstats.net/stats/interaction.png?ii=TRACKER_TYPE&id=${mw_bid_id}&li=${mw_lineitem_id}&t=${mw_timestamp}&cr=${mw_creative_id}').replace('TRACKER_TYPE', trackerType)];
+          // this.imageTracker(customTracker);
           this.results[this.currentQuestion] = {
             answer: answer.innerText,
             index: answerIndex,
             trackerType,
+            questionTrackerType,
           };
           this.renderQuestion(this.currentQuestion + 1);
         };
@@ -146,6 +145,12 @@ class AdUnit extends Mads {
         display: 'flex',
       },
     );
+
+    ad.querySelector('#endContainer').onclick = () => {
+      this.tracker('CTR', { name: 'landing_page', exclude: true });
+      this.linkOpener('http://tnsuccess.org/');
+    };
+
     fadeOut(ad.querySelector('#indicatorContainer'));
     fadeOut(ad.querySelector('#controlContainer'));
   }
@@ -187,8 +192,12 @@ class AdUnit extends Mads {
     };
 
     let poll = '';
-    this.results.forEach((item) => {
-      poll += `${item.trackerType}=${item.answer}${this.results.indexOf(item) === this.results.length - 1 ? '' : '&'}`;
+    this.results.forEach((item, ix) => {
+      if (item) {
+        poll += `${item.questionTrackerType}=${item.answer}${this.results.indexOf(item) === this.results.length - 1 ? '' : '&'}`;
+      } else {
+        poll += `QID${ix + 1}=skipped${ix === this.results.length - 1 ? '' : '&'}`;
+      }
     });
 
     const campaignId = getURLParameter('campaignId', this.custTracker[0]);
