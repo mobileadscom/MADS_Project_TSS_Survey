@@ -1,0 +1,117 @@
+#adContainer, #rma-widget, #endContainer, #firstContainer {
+    width: 320px;
+    height: 480px;
+}
+
+#firstContainer {
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#enter {
+    box-shadow: 0 1px 2.9px 0.2px rgba(0, 0, 0, 0.3);
+    font-size: 18px;
+    font-weight: 400;
+    font-family: Arial;
+    color: #3e3e3e;
+    text-shadow: 0 1px 0 rgba(238, 238, 238, 0.5);
+    background-image: linear-gradient(to top, #c6c6c6 0%, #f0f0f0 75%, #f0f0f0 100%);
+    border-radius: 15px;
+    padding: 3px 15px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+#adContainer, #endContainer {
+    font-family: Arial, serif;
+    font-weight: 400;
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#adContainer {
+    position: relative;
+}
+
+#endContainer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: none;
+    font-size: 25px;
+}
+
+#questionContainer {
+    opacity: 0;
+    width: 285px;
+    margin: 0 auto;
+}
+
+#questionContainer .question {
+    text-align: left;
+    margin: 0 auto 35px;
+}
+
+#questionContainer .answer.selected {
+    opacity: 0.5;
+}
+
+#questionContainer .answer {
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 400;
+    font-family: Arial, serif;
+    color: #3e3e3e;
+    text-shadow: 0 1px 0 rgba(238, 238, 238, 0.5);
+    border-radius: 15px;
+    padding: 5px 15px;
+    display: block;
+    margin: 10px 0;
+    background-color: #cecece;
+    box-shadow: 0 1px 3.8px 0.2px rgba(0, 0, 0, 0.3), inset 0.5px 0.9px 3px rgba(0, 0, 0, 0.35);
+    background-image: linear-gradient(to top, #EAE6E6 0%, #BDB9B9 75%, #BFBFBF 100%);
+    border: 3px solid #cecece;
+    min-width: 100px;
+    width: 245px;
+}
+
+#indicatorContainer {
+    bottom: 10px;
+    right: 145px;
+    position: absolute;
+    font-size: 25px;
+}
+
+#controlContainer {
+    width: 90px;
+    position: relative;
+    margin-top: 25px;
+    margin-right: 20px;
+    align-self: flex-end;
+}
+
+#controlContainer img {
+    display: inline-block;
+}
+
+#prev, #next {
+    transition: opacity 0.3s linear;
+    opacity: 1;
+}
+
+#prev {
+    opacity: 0;
+}
+
+#next {
+    opacity: 0.5;
+}
