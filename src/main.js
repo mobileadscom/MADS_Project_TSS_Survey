@@ -9,17 +9,20 @@ class AdUnit extends Mads {
     this.currentQuestion = 0;
     this.results = [];
     this.polled = false;
+    this.isExp = true;
   }
 
   render() {
     this.results = new Array(this.data.questions.length);
 
-    return `
-      <div class="ad-container" id="adContainer">
-        <div id="firstContainer">
+    const firstContainer = !this.isExp ? `<div id="firstContainer">
           <div style="margin-bottom: 20px;font-size:23px; width: 290px;">How do you feel about Tennessee's school system?</div>
           <div id="enter">ENTER</div>
-        </div>
+        </div>` : '';
+
+    return `
+      <div class="ad-container" id="adContainer">
+        ${firstContainer}
         <div id="questionContainer"></div>
         <div id="controlContainer">
           <img src="img/larrow.png" style="pointer-events: none;" id="prev" alt="previous" />
@@ -31,6 +34,7 @@ class AdUnit extends Mads {
   }
 
   postRender() {
+    if (this.isExp) this.renderQuestion(0);
     window.addEventListener('message', (e) => {
       if (typeof e.data.auth !== 'undefined' && e.data.auth.type === 'closeExpandable') {
         this.sendPoll();
@@ -146,6 +150,7 @@ class AdUnit extends Mads {
 
     ad.querySelector('#endContainer').onclick = () => {
       this.tracker('CTR', { name: 'landing_page', exclude: true });
+      !this.polled && this.sendPoll(); // eslint-disable-line no-unused-expressions
       this.linkOpener('http://tnsuccess.org/');
     };
 
@@ -173,10 +178,12 @@ class AdUnit extends Mads {
       this.renderQuestion(this.currentQuestion - 1);
     };
 
-    this.elems.enter.onclick = () => {
-      this.renderQuestion(0);
-      fadeOutIn(this.elems.firstContainer, this.elems.questionContainer, { display: 'block' });
-    };
+    if (!this.isExp) {
+      this.elems.enter.onclick = () => {
+        this.renderQuestion(0);
+        fadeOutIn(this.elems.firstContainer, this.elems.questionContainer, { display: 'block' });
+      };
+    }
   }
 
   sendPoll() {
