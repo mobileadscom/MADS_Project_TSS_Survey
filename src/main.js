@@ -31,8 +31,6 @@ class AdUnit extends Mads {
   }
 
   postRender() {
-    this.renderQuestion(0);
-
     window.addEventListener('message', (e) => {
       if (typeof e.data.auth !== 'undefined' && e.data.auth.type === 'closeExpandable') {
         this.sendPoll();
@@ -176,6 +174,7 @@ class AdUnit extends Mads {
     };
 
     this.elems.enter.onclick = () => {
+      this.renderQuestion(0);
       fadeOutIn(this.elems.firstContainer, this.elems.questionContainer, { display: 'block' });
     };
   }
