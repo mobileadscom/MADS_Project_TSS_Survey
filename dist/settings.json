@@ -11,10 +11,6 @@
       "answers": ["Yes", "No"]
     },
     {
-      "question": "What is your Gender?",
-      "answers": ["Female", "Male", "Other", "Rather Not Say"]
-    },
-    {
       "question": "In general, do you believe the academic standards for Tennessee public school students should be raised, lowered, or kept the same?",
       "answers": ["Raise Standards", "Lower Standards", "Same Standards", "Unsure"]
     },

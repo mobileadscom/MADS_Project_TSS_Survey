@@ -9,7 +9,7 @@ class AdUnit extends Mads {
     this.currentQuestion = 0;
     this.results = [];
     this.polled = false;
-    this.isExp = true;
+    this.isExp = false;
   }
 
   render() {
@@ -118,6 +118,9 @@ class AdUnit extends Mads {
             .answers.indexOf(answer.innerText);
           const trackerType = `QID${this.currentQuestion + 1}_Opt${answerIndex + 1}`;
           this.tracker('E', trackerType);
+          if (this.currentQuestion + 1 === this.data.questions.length) {
+            !this.polled && this.sendPoll(); // eslint-disable-line no-unused-expressions
+          }
           // eslint-disable-next-line no-template-curly-in-string
           // const customTracker = [((this.custTracker[1] && this.custTracker[1]) || 'https://trk.mwstats.net/stats/interaction.png?ii=TRACKER_TYPE&id=${mw_bid_id}&li=${mw_lineitem_id}&t=${mw_timestamp}&cr=${mw_creative_id}').replace('TRACKER_TYPE', trackerType)];
           // this.imageTracker(customTracker);
@@ -150,7 +153,6 @@ class AdUnit extends Mads {
 
     ad.querySelector('#endContainer').onclick = () => {
       this.tracker('CTR', { name: 'landing_page', exclude: true });
-      !this.polled && this.sendPoll(); // eslint-disable-line no-unused-expressions
       this.linkOpener('http://tnsuccess.org/');
     };
 
